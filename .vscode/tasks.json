@@ -1,0 +1,57 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "API: dev:inspect",
+      "type": "shell",
+      "command": "npm run dev:inspect",
+      "options": {
+        "cwd": "${workspaceFolder}/bayer-chatbot"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "bayer-chatbot",
+        "pattern": [
+          {
+            "regexp": "^([^:]+):(\\d+):(\\d+):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "message": 4
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "service\\.listening"
+        }
+      }
+    },
+    {
+      "label": "UI: dev",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/bayer-chatbot-ui"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "bayer-chatbot-ui",
+        "pattern": [
+          {
+            "regexp": "^([^:]+):(\\d+):(\\d+):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "message": 4
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "Local:"
+        }
+      }
+    }
+  ]
+}

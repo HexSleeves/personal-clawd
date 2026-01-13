@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API: Attach (bayer-chatbot, 9229)",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "restart": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "sourceMaps": true,
+      "cwd": "${workspaceFolder}/bayer-chatbot",
+      "timeout": 30000,
+      "preLaunchTask": "API: dev:inspect"
+    },
+    {
+      "name": "UI: Chrome (bayer-chatbot-ui)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/bayer-chatbot-ui",
+      "sourceMaps": true,
+      "preLaunchTask": "UI: dev"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack: API attach + UI Chrome",
+      "configurations": [
+        "API: Attach (bayer-chatbot, 9229)",
+        "UI: Chrome (bayer-chatbot-ui)"
+      ]
+    }
+  ]
+}
