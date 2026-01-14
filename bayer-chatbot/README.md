@@ -1,10 +1,12 @@
-# bayer-chatbot-service
+# bayer-chatbot-service (Go)
 
-A small Node.js/TypeScript service that proxies the **myGenAssist Platform API** (`chat.int.bayer.com/api/v2`) into a simpler internal interface.
+A small Go (stdlib `net/http`) service that proxies the **myGenAssist Platform API** (`chat.int.bayer.com/api/v2`) into a simpler internal interface.
+
+This folder previously contained a Node.js/TypeScript implementation; the Go server is now the primary runtime.
 
 ## Prereqs
 
-- Node.js 18+ (fetch + web streams)
+- Go toolchain (compatible with Go 1.15-era features; no generics/`embed`)
 - An access token for the header `x-baychatgpt-accesstoken`
 
 ## Setup
@@ -13,8 +15,15 @@ A small Node.js/TypeScript service that proxies the **myGenAssist Platform API**
 cd bayer-chatbot
 cp .env.example .env
 # edit .env
-npm install
-npm run dev
+
+go run ./cmd/bayer-chatbot-service
+```
+
+Build a binary:
+
+```bash
+go build -o bayer-chatbot-service ./cmd/bayer-chatbot-service
+./bayer-chatbot-service
 ```
 
 ## Debugging
@@ -23,15 +32,12 @@ Enable structured logs (all optional):
 
 - `LOG_LEVEL=debug|info|warn|error|silent` (default: `info`)
 - `DEBUG_HTTP=true` logs request + response metadata
-- `DEBUG_HTTP_BODY=true` includes parsed JSON request bodies in logs
 - `DEBUG_UPSTREAM=true` logs upstream request/response metadata (token is redacted)
 
-Run with Node inspector:
+Notes:
 
-```bash
-npm run dev:inspect
-# then open chrome://inspect and attach (port 9229)
-```
+- The Go version intentionally uses only the standard library (no external logging/router deps).
+- If you want interactive debugging, attach `dlv` manually (not bundled).
 
 ## Endpoints
 
@@ -68,8 +74,3 @@ curl -N \
     "hidden": true
   }'
 ```
-
-## Next steps
-
-- Add a skill/tool router: intercept tool calls in the response stream and execute internal actions.
-- Generate typed client from the OpenAPI spec (optional).
